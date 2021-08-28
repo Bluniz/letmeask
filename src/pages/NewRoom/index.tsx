@@ -4,9 +4,11 @@ import { Button } from "components/Button.tsx";
 import { Link } from "react-router-dom";
 
 import "./styles.scss";
-
+/* import { useAuth } from "hooks/useAuth";
+ */
 export function NewRoom() {
-  return (
+  /*   const { user } = useAuth();
+   */ return (
     <div className="page-create">
       <aside className="page-create__aside">
         <img src={ilustrationImg} alt="Ilustração de perguntas e respostas" />
