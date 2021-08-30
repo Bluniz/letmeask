@@ -4,8 +4,7 @@ import { Button } from "components/Button.tsx";
 import { Link } from "react-router-dom";
 
 import "./styles.scss";
-/* import { useAuth } from "hooks/useAuth";
- */
+/* import { useAuth } from "hooks/useAuth";*/
 export function NewRoom() {
   /*   const { user } = useAuth();
    */ return (
@@ -19,7 +18,7 @@ export function NewRoom() {
         <div className="page-create__main-content">
           <img src={logoImg} alt="Letmeask" />
           <h2>Criar uma nova sala</h2>
-          <form className="page_create__main-content__form ">
+          <form className="page_create__main-content-form">
             <input type="text" placeholder="Nome da Sala" />
             <Button type="submit">Criar sala</Button>
           </form>

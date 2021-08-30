@@ -63,7 +63,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         });
       }
     });
-    //! "Descastrar ao final do useEffect"
+    //! "Sair ao final do useEffect"
     return () => {
       unsubscribe();
     };

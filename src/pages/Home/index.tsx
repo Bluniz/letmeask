@@ -41,7 +41,7 @@ export function Home() {
           <div className="page-auth__main-content-separator">
             ou entre em uma sala
           </div>
-          <form className="page_auth__main-content__form ">
+          <form className="page_auth__main-content-form">
             <input type="text" placeholder="DIgite o código da sala" />
             <Button type="submit">Entrar na sala</Button>
           </form>
