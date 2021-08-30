@@ -1,3 +1,4 @@
+import { toastController } from "components/Toast";
 import { createContext, useState, ReactNode, useEffect } from "react";
 import { auth, firebase } from "services/firebase";
 
@@ -29,20 +30,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
   async function signInWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
 
-    const result = await auth.signInWithPopup(provider);
+    try {
+      const result = await auth.signInWithPopup(provider);
 
-    if (result.user) {
-      const { displayName, photoURL, uid } = result.user;
+      if (result.user) {
+        const { displayName, photoURL, uid } = result.user;
 
-      if (!displayName || !photoURL) {
-        throw new Error("Missing information from Google Account.");
+        if (!displayName || !photoURL) {
+          toastController.error("Missing information from Google Account.");
+          throw new Error("Missing information from Google Account.");
+        }
+
+        setUser({
+          id: uid,
+          name: displayName,
+          avatar: photoURL,
+        });
+        toastController.success("Login realizado com sucesso!");
       }
-
-      setUser({
-        id: uid,
-        name: displayName,
-        avatar: photoURL,
-      });
+    } catch (error) {
+      toastController.error("Erro inesperado!");
+      console.log(error);
     }
   }
 
@@ -53,6 +61,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         const { displayName, photoURL, uid } = user;
 
         if (!displayName || !photoURL) {
+          toastController.error("Missing information from Google Account.");
           throw new Error("Missing information from Google Account.");
         }
 
