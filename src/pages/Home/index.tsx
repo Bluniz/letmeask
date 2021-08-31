@@ -8,10 +8,18 @@ import logoImg from "assets/images/logo.svg";
 import googleIconImg from "assets/images/google-icon.svg";
 
 import "./styles.scss";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { toastController } from "components/Toast";
+import { database } from "services/firebase";
 
 export function Home() {
   const history = useHistory();
   const { user, signInWithGoogle } = useAuth();
+  const [roomCode, setRoomCode] = useState("");
+
+  function handleChangeRoomCode(event: ChangeEvent<HTMLInputElement>) {
+    setRoomCode(event.target.value);
+  }
 
   async function handleCreateRoom() {
     if (!user) {
@@ -19,6 +27,26 @@ export function Home() {
     }
 
     history.push("/rooms/new");
+  }
+
+  async function handleJoinRoom(event: FormEvent) {
+    event.preventDefault();
+
+    if (roomCode.trim() === "") {
+      return toastController.error(
+        "Por favor digite o nome da sala que deseja criar!"
+      );
+    }
+
+    try {
+      const roomRef = await database.ref(`rooms/${roomCode}`).get();
+      if (!roomRef.exists()) return toastController.error("Sala não existe");
+
+      history.push(`/rooms/${roomCode}`);
+    } catch (error) {
+      toastController.error("Ocorreu um erro inesperado!");
+      console.log(error);
+    }
   }
 
   return (
@@ -41,8 +69,16 @@ export function Home() {
           <div className="page-auth__main-content-separator">
             ou entre em uma sala
           </div>
-          <form className="page_auth__main-content-form">
-            <input type="text" placeholder="DIgite o código da sala" />
+          <form
+            className="page_auth__main-content-form"
+            onSubmit={handleJoinRoom}
+          >
+            <input
+              onChange={handleChangeRoomCode}
+              value={roomCode}
+              type="text"
+              placeholder="DIgite o código da sala"
+            />
             <Button type="submit">Entrar na sala</Button>
           </form>
         </div>

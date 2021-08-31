@@ -59,7 +59,12 @@ export function NewRoom() {
             className="page_create__main-content-form"
             onSubmit={handleCreateRoom}
           >
-            <input type="text" placeholder="Nome da Sala" onChange={onChange} />
+            <input
+              value={newRoomName}
+              type="text"
+              placeholder="Nome da Sala"
+              onChange={onChange}
+            />
             <Button type="submit">Criar sala</Button>
           </form>
           <p>
